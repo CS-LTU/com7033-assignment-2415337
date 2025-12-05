@@ -262,3 +262,105 @@ Adding a mobile-friendly API
 This project successfully delivers a secure and functional healthcare management system. It demonstrates full CRUD capability, role-based access, data validation, an interactive dashboard, and safe handling of sensitive data.
 
 The application meets the assessment requirements for design, implementation, and professional practice. It also provides a strong foundation for future enhancements and advanced data analytics in healthcare environments.
+
+
+📦 How to Run the Application (After Downloading ZIP)
+
+Follow these steps exactly to run the project successfully on any Windows machine.
+
+✅ 1. Download the Project
+
+Visit your GitHub repository.
+
+Click Code → Download ZIP
+
+Extract the ZIP file to a folder, for example:
+
+C:\Users\YourName\Desktop\patient-app
+
+✅ 2. Open the Project in VS Code
+
+Open Visual Studio Code
+
+Go to File → Open Folder
+
+Select the extracted patient-app folder.
+
+✅ 3. Create and Activate a Virtual Environment
+
+Open a terminal in VS Code (Terminal → New Terminal) and run:
+
+Windows PowerShell
+python -m venv venv
+.\venv\Scripts\Activate
+
+
+If activation is blocked, run this command first:
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+
+Then activate again:
+
+.\venv\Scripts\activate
+
+
+You should now see:
+
+(venv) PS C:\Users\...\patient-app>
+
+✅ 4. Install All Required Python Packages
+
+Run:
+
+pip install -r requirements.txt
+
+
+This installs:
+
+Flask
+
+Flask-Login
+
+Flask-WTF
+
+SQLAlchemy
+
+PyMongo
+
+Werkzeug
+
+WTForms
+
+Chart.js dependencies, etc.
+
+✅ 5. Set Up Databases
+SQLite (Automatic)
+
+Nothing to do.
+It creates a file app.db automatically on first run.
+
+MongoDB
+
+You must have MongoDB installed and running.
+
+If using MongoDB Atlas (cloud), update this line inside __init__.py:
+
+app.config["MONGO_URI"] = "your MongoDB connection string"
+
+✅ 6. Run the Application
+
+In the same activated virtual environment, run:
+
+python run.py
+
+
+If successful, you will see:
+
+Running on http://127.0.0.1:5000  (Press CTRL+C to quit)
+
+✅ 7. Open the App in Your Browser
+
+Go to:
+
+👉 http://127.0.0.1:5000
