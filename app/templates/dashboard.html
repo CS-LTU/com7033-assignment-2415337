@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-4">
+  <h2 class="mb-1">Analytics Dashboard</h2>
+  <p class="text-muted">
+    Overview of patient data from the stroke dataset.
+  </p>
+
+  <!-- TOP SUMMARY CARDS -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="text-muted text-uppercase small mb-1">Total Patients</h6>
+          <p class="display-6 mb-0">{{ total }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="text-muted text-uppercase small mb-1">Stroke Cases</h6>
+          <p class="mb-0">
+            <strong>{{ stroke_yes }}</strong> with stroke<br>
+            <strong>{{ stroke_no }}</strong> without stroke
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="text-muted text-uppercase small mb-1">Stroke Rate</h6>
+          <p class="display-6 mb-0">
+            {{ stroke_rate }}%
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="text-muted text-uppercase small mb-1">Averages</h6>
+          <ul class="list-unstyled mb-0 small">
+            <li>Age: {{ avg_age if avg_age is not none else "N/A" }}</li>
+            <li>Glucose: {{ avg_glucose if avg_glucose is not none else "N/A" }}</li>
+            <li>BMI: {{ avg_bmi if avg_bmi is not none else "N/A" }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 1: STROKE + GENDER CHARTS -->
+  <div class="row g-4 mb-4">
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="mb-3">Stroke vs No Stroke</h6>
+          <div style="height:260px;">
+            <canvas id="strokeChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="mb-3">Patients by Gender</h6>
+          <div style="height:260px;">
+            <canvas id="genderChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 2: AGE BANDS + HIGH-RISK TABLE -->
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="mb-3">Patients by Age Band</h6>
+          <div style="height:260px;">
+            <canvas id="ageChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="mb-3">High-Risk Stroke Patients</h6>
+
+          {% if high_risk %}
+          <div class="table-responsive" style="max-height:260px; overflow-y:auto;">
+            <table class="table table-striped table-sm align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>Patient ID</th>
+                  <th>Age</th>
+                  <th>Glucose</th>
+                  <th>BMI</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for p in high_risk %}
+                <tr>
+                  <td>{{ p.patient_id }}</td>
+                  <td>{{ p.age }}</td>
+                  <td>{{ p.avg_glucose_level }}</td>
+                  <td>{{ p.bmi }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+            <p class="text-muted mb-0">No stroke patients found.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+  // Values from Flask
+  const strokeYes  = {{ stroke_yes  | tojson }};
+  const strokeNo   = {{ stroke_no   | tojson }};
+  const genders    = {{ genders     | tojson }};
+  const genderCounts = {{ gender_counts | tojson }};
+  const ageBands      = {{ age_bands       | tojson }};
+  const ageBandCounts = {{ age_band_counts | tojson }};
+
+  // Stroke doughnut chart
+  const strokeCtx = document.getElementById('strokeChart');
+  if (strokeCtx) {
+    new Chart(strokeCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Stroke', 'No Stroke'],
+        datasets: [{
+          data: [strokeYes, strokeNo],
+          backgroundColor: ['#e74c3c', '#2ecc71'],
+          hoverOffset: 4
+        }]
+      },
+      options: {
+        plugins: {
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    });
+  }
+
+  // Gender bar chart
+  const genderCtx = document.getElementById('genderChart');
+  if (genderCtx) {
+    new Chart(genderCtx, {
+      type: 'bar',
+      data: {
+        labels: genders,
+        datasets: [{
+          label: 'Patients',
+          data: genderCounts,
+          backgroundColor: '#4e79a7'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  }
+
+  // Age band bar chart
+  const ageCtx = document.getElementById('ageChart');
+  if (ageCtx) {
+    new Chart(ageCtx, {
+      type: 'bar',
+      data: {
+        labels: ageBands,
+        datasets: [{
+          label: 'Patients',
+          data: ageBandCounts,
+          backgroundColor: '#f28e2b'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            ticks: { autoSkip: false }
+          },
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Patients</h2>
+
+  <p><strong>Total patients in list:</strong> {{ count }}</p>
+  <p class="text-muted">Displaying patient data from MongoDB.</p>
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <!-- Search form: visible to everyone -->
+    <form class="d-flex" method="get" action="{{ url_for('patients.list_patients') }}">
+      <input class="form-control me-2"
+             type="search"
+             name="q"
+             placeholder="Search by patient ID, gender, smoking status..."
+             value="{{ q or '' }}">
+      <button class="btn btn-outline-primary" type="submit">Search</button>
+    </form>
+
+    <!-- Admin-only buttons -->
+    {% if current_user.is_authenticated and current_user.is_admin() %}
+      <div>
+        <a href="{{ url_for('patients.create_patient') }}" class="btn btn-success">Add Patient</a>
+        <a href="{{ url_for('patients.import_patients') }}" class="btn btn-secondary ms-2">Re-import CSV</a>
+      </div>
+    {% endif %}
+  </div>
+
+  {% if patients %}
+    <table class="table table-striped mt-3">
+      <thead>
+        <tr>
+          <th>Internal ID</th>
+          <th>Patient ID</th>
+          <th>Gender</th>
+          <th>Age</th>
+          <th>Stroke</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in patients %}
+          <tr>
+            <td>{{ p._id }}</td>
+            <td>{{ p.patient_id }}</td>
+            <td>{{ p.gender }}</td>
+            <td>{{ p.age }}</td>
+            <td>{{ p.stroke }}</td>
+            <td>
+              <!-- View: everyone -->
+              <a class="btn btn-sm btn-primary"
+                 href="{{ url_for('patients.patient_detail', patient_id=p._id) }}">
+                View
+              </a>
+
+              <!-- Edit/Delete: admin only -->
+              {% if current_user.is_authenticated and current_user.is_admin() %}
+                <a class="btn btn-sm btn-warning"
+                   href="{{ url_for('patients.edit_patient', patient_id=p._id) }}">
+                  Edit
+                </a>
+                <form action="{{ url_for('patients.delete_patient', patient_id=p._id) }}"
+                      method="post"
+                      style="display:inline;"
+                      onsubmit="return confirm('Are you sure you want to delete this patient?');">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                  <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="alert alert-info mt-3">
+      No patients found for this query.
+    </div>
+  {% endif %}
+
+  {% if total_pages > 1 %}
+    <nav aria-label="Patients pagination" class="mt-3">
+      <ul class="pagination">
+        <li class="page-item {% if page <= 1 %}disabled{% endif %}">
+          <a class="page-link"
+             href="{{ url_for('patients.list_patients', page=page-1, q=q) }}">Previous</a>
+        </li>
+
+        {% for p in range(1, total_pages + 1) %}
+          <li class="page-item {% if p == page %}active{% endif %}">
+            <a class="page-link"
+               href="{{ url_for('patients.list_patients', page=p, q=q) }}">{{ p }}</a>
+          </li>
+        {% endfor %}
+
+        <li class="page-item {% if page >= total_pages %}disabled{% endif %}">
+          <a class="page-link"
+             href="{{ url_for('patients.list_patients', page=page+1, q=q) }}">Next</a>
+        </li>
+      </ul>
+    </nav>
+  {% endif %}
+{% endblock %}

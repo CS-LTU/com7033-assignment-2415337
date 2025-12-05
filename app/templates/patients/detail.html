@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2>Patient Details</h2>
+    <hr>
+
+    <table class="table table-bordered">
+        <tr><th>Internal ID</th><td>{{ patient._id }}</td></tr>
+        <tr><th>Patient ID</th><td>{{ patient.patient_id }}</td></tr>
+        <tr><th>Gender</th><td>{{ patient.gender }}</td></tr>
+        <tr><th>Age</th><td>{{ patient.age }}</td></tr>
+        <tr><th>Hypertension</th><td>{{ patient.hypertension }}</td></tr>
+        <tr><th>Heart Disease</th><td>{{ patient.heart_disease }}</td></tr>
+        <tr><th>Ever Married</th><td>{{ patient.ever_married }}</td></tr>
+        <tr><th>Work Type</th><td>{{ patient.work_type }}</td></tr>
+        <tr><th>Residence Type</th><td>{{ patient.residence_type }}</td></tr>
+        <tr><th>Avg Glucose Level</th><td>{{ patient.avg_glucose_level }}</td></tr>
+        <tr><th>BMI</th><td>{{ patient.bmi }}</td></tr>
+        <tr><th>Smoking Status</th><td>{{ patient.smoking_status }}</td></tr>
+        <tr><th>Stroke</th><td>{{ patient.stroke }}</td></tr>
+    </table>
+
+    <a href="{{ url_for('patients.list_patients') }}" class="btn btn-secondary">Back</a>
+        <a href="{{ url_for('patients.edit_patient', patient_id=patient._id) }}"
+       class="btn btn-warning">Edit</a>
+
+    <form action="{{ url_for('patients.delete_patient', patient_id=patient._id) }}"
+          method="post"
+          style="display:inline;"
+          onsubmit="return confirm('Are you sure you want to delete this patient?');">
+      <button class="btn btn-danger" type="submit">Delete</button>
+    </form>
+
+    <a href="{{ url_for('patients.list_patients') }}" class="btn btn-secondary ms-2">Back to list</a>
+
+    
+</div>
+
+{% endblock %}

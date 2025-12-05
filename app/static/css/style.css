@@ -1,0 +1,135 @@
+body {
+  padding-bottom: 40px;
+}
+/* ---------- Home / hero styling ---------- */
+
+.hero-section {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: #fff;
+  border-radius: 0 0 32px 32px;
+  margin-top: -1rem;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.hero-subtitle {
+  font-size: 1.05rem;
+  max-width: 32rem;
+}
+
+.hero-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* Feature cards under hero */
+.feature-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  border: 1px solid #eef1f5;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Make hero buttons stand out on dark background */
+.hero-section .btn-primary {
+  background-color: #00b894;
+  border-color: #00b894;
+}
+
+.hero-section .btn-outline-light {
+  border-width: 2px;
+}
+.navbar-nav .nav-link {
+    font-size: 1rem;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+}
+
+.navbar-nav .btn-sm {
+    padding: 0.35rem 0.75rem;
+}
+/* -------- Home / hero styling -------- */
+
+.hero-section {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: #fff;
+  border-radius: 0 0 32px 32px;
+  margin-top: -1rem;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.hero-subtitle {
+  font-size: 1.05rem;
+  max-width: 34rem;
+}
+
+.hero-card {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 1.25rem;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* Feature cards under hero */
+.feature-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  border: 1px solid #eef1f5;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Hero buttons on dark background */
+.hero-section .btn-primary {
+  background-color: #00b894;
+  border-color: #00b894;
+}
+
+.hero-section .btn-outline-light {
+  border-width: 2px;
+}
+/* Make cards and inputs feel nicer */
+.card {
+  border-radius: 0.75rem;
+}
+
+.card-header {
+  border-radius: 0.75rem 0.75rem 0 0 !important;
+}
+
+.form-control,
+.form-select {
+  border-radius: 0.5rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+  border-color: #0d6efd;
+}
+
+.btn {
+  border-radius: 0.5rem;
+}

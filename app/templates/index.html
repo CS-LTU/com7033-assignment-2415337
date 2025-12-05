@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Hero section -->
+<section class="hero-section py-5">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-md-7">
+
+        <h1 class="hero-title mb-3">
+          Secure Patient Management<br>
+          for Stroke Risk Analysis
+        </h1>
+
+        {% if current_user.is_authenticated %}
+          <p class="hero-subtitle mb-4">
+            Welcome back, <strong>{{ current_user.username }}</strong>.  
+            Use the dashboard to search, review and update patient records from the
+            stroke dataset, with all actions protected by secure authentication and CSRF.
+          </p>
+
+          <a href="{{ url_for('patients.list_patients') }}" class="btn btn-primary btn-lg me-2">
+            Go to Patients
+          </a>
+          <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-light btn-lg">
+            Logout
+          </a>
+
+        {% else %}
+          <p class="hero-subtitle mb-4">
+            This application demonstrates secure storage and analysis of sensitive
+            healthcare data using Flask, SQLite for user accounts and MongoDB for
+            patient records, following ethical and professional standards.
+          </p>
+
+          <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg me-2">
+            Get Started – Register
+          </a>
+          <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-lg">
+            Login
+          </a>
+        {% endif %}
+
+      </div>
+
+      <div class="col-md-5">
+        <div class="hero-card shadow-lg p-4">
+          <h5 class="mb-3">System Highlights</h5>
+          <ul class="list-unstyled small mb-0">
+            <li>✔ User accounts stored in SQLite with password hashing</li>
+            <li>✔ Patient records stored in MongoDB from a real stroke dataset</li>
+            <li>✔ Full CRUD operations, search and CSV import</li>
+            <li>✔ CSRF protection and input validation on all forms</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Feature cards -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="feature-card h-100 p-4">
+          <h5 class="mb-2">Secure by Design</h5>
+          <p class="mb-0 small">
+            Authentication, CSRF protection and validated inputs help to prevent
+            common web vulnerabilities when handling sensitive healthcare data.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="feature-card h-100 p-4">
+          <h5 class="mb-2">Integrated Databases</h5>
+          <p class="mb-0 small">
+            SQLite manages user accounts while MongoDB stores patient information,
+            demonstrating separation of concerns and scalable data management.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="feature-card h-100 p-4">
+          <h5 class="mb-2">Academic Focus</h5>
+          <p class="mb-0 small">
+            Built as a coursework project to evidence secure programming practices,
+            ethical use of medical data and professional documentation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

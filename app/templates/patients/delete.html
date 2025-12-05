@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Delete Patient</h2>
+
+    <p>Are you sure you want to delete patient:</p>
+
+    <b>{{ patient.patient_id }} — {{ patient.gender }}, age {{ patient.age }}</b>
+
+    <form action="" method="POST">
+        <!-- CSRF protection -->
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <button class="btn btn-danger">Yes, Delete</button>
+        <a href="{{ url_for('patients.list_patients') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
+
