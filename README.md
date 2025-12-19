@@ -1,4 +1,4 @@
-Healthcare Patient Management System – Final Report (Humanised Version)
+Healthcare Patient Management System – Final Report
 1. Introduction
 
 This project focuses on developing a Healthcare Patient Management System using Flask, SQLite, and MongoDB. The aim was to build a secure and easy-to-use web application that can store, manage, and analyse patient information from a stroke-related dataset.
